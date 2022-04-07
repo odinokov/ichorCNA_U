@@ -1,0 +1,58 @@
+
+
+#Which steps to run. 
+#If all are false, output dir structure and job scripts will be created
+#and then pipeline will exit.
+runDepthCalc: false
+runIchorCNA: false
+calcStats: false
+
+ichorCNAPath: default #src_ichorCNA/ path, defaults to the dir containing ichorCNA_U.py
+RscriptPath: Rscript
+juliaPath: julia
+bedtoolsPath: bedtools
+
+inputDir: ./inFolder
+outputDir: ./outputFolder
+
+#Info for job managment. 
+slurmQueue: LOCAL #If not using slurm, set slurmQueue to LOCAL.
+cores: 1          #Cores to use on local machine if slurmQueue is set to LOCAL
+slurmUser: na
+
+## Read counter params ##
+dataType: xam          #Set to xam for bam/cram files, bed for bed files.
+chromSizes: na      #Tab delimited file of chromosome size in bp.
+referenceGenome: na    #Path to reference genome. 
+
+## ichorCNA params ##
+## see ichorCNA docs ##
+chrs: [chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10,chr11,chr12,
+  chr13,chr14,chr15,chr16,chr17,chr18,chr19,chr20,chr21,chr22]
+binSize: 500 #in kb, 500 or 1000 typically used.
+estimateNormal: true
+estimatePloidy: true
+estimateClonality: true
+initial_normal_proportion: [0.25,0.5,0.6,0.7,0.8,0.9,0.99] 
+ploidy: [2]
+scStates: [1,3]
+maxCN: 7
+maxSubcloneCNA: 0.7 
+maxSubcloneFrac: 0.5
+includeHOMD: false
+txnE: 0.9999
+txnStrength: 10000
+plotFileType: png
+plotYlim: [-2,4]
+
+#Any regions to exclude should be listed in this table (centromeres etc),
+#Otherwise set to false.
+#See src_ichorCNA/inst/exdata/GRCh37.p13_centromere_UCSC-gapTable.txt for format.
+blacklist: false
+
+#If not specified, these default to hg19 files provided by ichorCNA.
+normalCtrl: ""
+gcWig: ""
+mapWig: ""
+
+
