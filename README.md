@@ -94,7 +94,7 @@ gcCounter -f -w 500000 /path/to/refgenome.fna > refGenome.gc.500k.wig
 #### 2. Reference genome mappability wig file via genmap and hmmcopy_utils mapCounter
 ```Bash
 genmap index -F /path/to/refgenome.fna -I genmap.index
-genmap -K 50 -E 1 -w -T [num_cores] -I genmap.index -O genmap.k50.e1.wig
+genmap map -K 50 -E 1 -w -T [num_cores] -I genmap.index -O genmap.k50.e1.wig
 wigToBigWig genmap.k50.e1.wig chrom.sizes genmap.k50.e1.bw
 mapCounter -w 500000 ./genmap.k50.e1.bw > refGenome.map.500k.wig
 ```
