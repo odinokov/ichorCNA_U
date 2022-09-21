@@ -199,6 +199,10 @@ def write_ichorCNA(sData):
 	else:
 		normalPanel = sData.normal
 
+	allChr = [str(x) for x in sData.chrs]
+	if sData.gcWig == "" and sData.ichorCNAPath != "None":
+		allChr = [x.replace("chr","") for x in allChr]
+
 	for s in sData.samples:
 		if sData.gcWig == "" and sData.ichorCNAPath != "None":
 			gcWig = "{0}/inst/extdata/gc_hg19_{1}kb.wig".format(sData.ichorCNAPath,sData.binSize)
@@ -211,10 +215,9 @@ def write_ichorCNA(sData):
 		if sData.blacklist == "" or sData.blacklist == False:
 			blacklist = "NULL"
 
-		allChr = [str(x) for x in sData.chrs]
-		allChr = "\\\"" + '\\\",\\\"'.join(allChr) + "\\\""
+		allChrSet = "\\\"" + '\\\",\\\"'.join(allChr) + "\\\""
 
-		args = [s,sData.outFolder,sData.binSize,allChr,max(sData.chrs),
+		args = [s,sData.outFolder,sData.binSize,allChrSet,max(sData.chrs),
 						sData.txnE,sData.txnStrength,','.join(sData.normalStart),','.join(sData.ploidy),
 						sData.maxCN,sData.estimateNormal,sData.estimatePloidy,sData.estimateClonality,
 						','.join(sData.scStates),sData.includeHOMD,sData.ichorCNAPath,sData.scriptHome,
@@ -372,6 +375,8 @@ if sData.runDepthCalc == True:
 	elif sData.queue != False:
 		run_jobs("{0}/jobScripts/binDepth".format(sData.outFolder),
 			jobName="bedDepth",username=sData.username)
+	if sData.gcWig == "" and sData.ichorCNAPath != "None":
+		os.system("grep -rl 'chrom=chr' {0}/wigFiles | xargs sed -i 's/chrom=chr/chrom=/g'".format(sData.outFolder))
 
 if sData.runIchor == True:
 	print("Running ichorCNA...")
