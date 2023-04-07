@@ -133,6 +133,7 @@ class inData(object):
 		files = [x for x in files if ".bai" not in x]
 		files = [x for x in files if ".crai" not in x]
 		files = [x for x in files if ".DS_Store" not in x]
+		files = [x for x in files if ".tbi" not in x]
 		for f in files:
 			if self.dataType == "xam":
 				n = f.replace(".bam","")
@@ -141,6 +142,9 @@ class inData(object):
 			elif self.dataType == "bed":
 				n = f.replace(".bed","")
 				n = n.replace(".tsv","")
+				n = n.replace(".bgz","")
+				n = n.replace(".gz","")
+				n = n.replace(".zip","")
 				self.samples[n] = os.path.abspath("{0}/{1}".format(yam["inputDir"],f))
 
 class Result(object):
@@ -377,6 +381,7 @@ if sData.runDepthCalc == True:
 			jobName="bedDepth",username=sData.username)
 	if sData.gcWig == "" and sData.ichorCNAPath != "None":
 		os.system("grep -rl 'chrom=chr' {0}/wigFiles | xargs sed -i 's/chrom=chr/chrom=/g'".format(sData.outFolder))
+	os.system("rm {0}/*.ichorCNAtempFixedBins.bed".format(sData.outFolder))
 
 if sData.runIchor == True:
 	print("Running ichorCNA...")
