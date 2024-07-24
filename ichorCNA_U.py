@@ -162,7 +162,7 @@ def write_beddepth(sData):
 	chroms = [str(x) for x in sData.chrs]
 	for s in sData.samples:
 		inFile = sData.samples[s]
-		mem = 2000
+		mem = 50000
 		samCmd1 = ""
 		samCmd2 = ""
 		args = [sData.bedDepthPath,sData.binSize,','.join(chroms),inFile,sData.outFolder,s,
@@ -236,7 +236,7 @@ def write_ichorCNA(sData):
 #SBATCH -p {2}		# partition (queue)
 #SBATCH -N 1		# number of nodes
 #SBATCH -n 1		# number of cores
-#SBATCH --mem 500		# memory (in mb)
+#SBATCH --mem 5000		# memory (in mb)
 #SBATCH -t 0-05:00		# time (D-HH:MM)
 #SBATCH -o {1}/logs/ichorCNA_{0}.log	#Logfile
 #SBATCH --job-name=ichorCNA_{0}

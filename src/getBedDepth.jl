@@ -82,7 +82,8 @@ Generates a temp bed file of the bins. Requires bedtools."
 		end
 	end
 
-	cmd = `$toolPath coverage -counts -sorted -g $(A["ChromSize"]) -a $tempBed -b $inBed`
+	#cmd = `$toolPath coverage -counts -sorted -g $(A["ChromSize"]) -a $tempBed -b $inBed`
+	cmd = `$toolPath coverage -counts -a $tempBed -b $inBed`
 	colTypes = Dict(1=>String,4=>Int)
 	countData = CSV.File(open(cmd,"r"),delim='\t',types=colTypes,header=false) |> DataFrame
 	
