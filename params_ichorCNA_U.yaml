@@ -16,8 +16,8 @@ inputDir: ./inFolder
 outputDir: ./outputFolder
 
 #Info for job managment. 
-slurmQueue: LOCAL #If not using slurm, set slurmQueue to LOCAL.
-cores: 1          #Cores to use on local machine if slurmQueue is set to LOCAL
+slurmQueue: LOCAL #If not using slurm, set slurmQueue to LOCAL. Run `sinfo` to view partition and node information.
+cores: 1          #Cores to use on local machine if slurmQueue is set to LOCAL.
 slurmUser: na
 
 ## Read counter params ##
