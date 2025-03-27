@@ -218,7 +218,8 @@ def write_ichorCNA(sData):
 			mapWig = sData.mapWig
 		if sData.blacklist == "" or sData.blacklist == False:
 			blacklist = "NULL"
-
+		else:
+			blacklist = sData.blacklist
 		allChrSet = "\\\"" + '\\\",\\\"'.join(allChr) + "\\\""
 
 		args = [s,sData.outFolder,sData.binSize,allChrSet,max(sData.chrs),
