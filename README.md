@@ -160,7 +160,7 @@ export PATH="$(pwd)/hmmcopy_utils/bin:$PATH"
 
 # UCSC wigToBigWig
 mkdir -p bin && cd bin
-wget -q http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/wigToBigWig || error_exit "Download failed for wigToBigWig"
+wget -q http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/wigToBigWig
 chmod +x wigToBigWig
 cd ..
 export PATH="$(pwd)/bin:$PATH"
