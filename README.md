@@ -154,7 +154,7 @@ env JULIA_USE_SYSTEM_LIBCURL=1 julia -e 'using Pkg; Pkg.add(["CSV", "DataFrames"
 git clone https://github.com/shahcompbio/hmmcopy_utils.git
 cd hmmcopy_utils
 mkdir -p build && cd build
-cmake .. && make || error_exit "Build failed for hmmcopy_utils"
+cmake .. && make
 cd ../..
 export PATH="$(pwd)/hmmcopy_utils/bin:$PATH"
 
