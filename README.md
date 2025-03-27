@@ -118,4 +118,54 @@ Rscript /path/to/src_ichorCNA/scripts/createPanelOfNormals.R \
 ```
 The resulting **refGenome.PoN_median.rds** file is the reference file used for the normalCtrl parameter in params_IchorCNA.yaml
 
+## Install Dependencies
 
+```Bash
+# Variables
+ENV_NAME="ichorCNA_U_env"
+
+# Create environment
+mamba create -n "$ENV_NAME" -y
+
+# Activate environment
+source "$(mamba info --base)/etc/profile.d/conda.sh"
+conda activate "$ENV_NAME"
+
+mamba install -n "$ENV_NAME" -y \
+  python=3.9 \
+  r-base=4.1 \
+  julia=1.8 \
+  bedtools \
+  genmap \
+  -c conda-forge \
+  -c bioconda
+
+pip install PyYAML
+
+# R + Bioconductor packages
+Rscript -e "install.packages(c('optparse'), repos='https://packagemanager.posit.co/cran/latest')"
+Rscript -e "if (!requireNamespace('BiocManager', quietly=TRUE)) install.packages('BiocManager', repos='https://packagemanager.posit.co/cran/latest')"
+Rscript -e "BiocManager::install(c('GenomicRanges', 'HMMcopy'), ask=FALSE)"
+
+# Julia packages
+env JULIA_USE_SYSTEM_LIBCURL=1 julia -e 'using Pkg; Pkg.add(["CSV", "DataFrames", "Query"]); Pkg.add(PackageSpec(url="https://github.com/brmcdonald/QuickArgParse"))'
+
+# hmmcopy_utils build
+git clone https://github.com/shahcompbio/hmmcopy_utils.git
+cd hmmcopy_utils
+mkdir -p build && cd build
+cmake .. && make || error_exit "Build failed for hmmcopy_utils"
+cd ../..
+export PATH="$(pwd)/hmmcopy_utils/bin:$PATH"
+
+# UCSC wigToBigWig
+mkdir -p bin && cd bin
+wget -q http://hgdownload.soe.ucsc.edu/admin/exe/linux.x86_64/wigToBigWig || error_exit "Download failed for wigToBigWig"
+chmod +x wigToBigWig
+cd ..
+export PATH="$(pwd)/bin:$PATH"
+
+# Get ichorCNA_U with fixed blacklist input
+git clone https://github.com/odinokov/ichorCNA_U.git
+tar -xzvf ./ichorCNA_U/src_ichorCNA/inst.tar.gz -C ./ichorCNA_U/src_ichorCNA/
+```
